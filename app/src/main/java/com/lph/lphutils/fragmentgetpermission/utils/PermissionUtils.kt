@@ -4,6 +4,9 @@ import android.Manifest
 import android.app.Activity
 import androidx.appcompat.app.AppCompatActivity
 import com.lph.lphutils.fragmentgetpermission.EmptyFragment
+import kotlin.coroutines.resume
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.suspendCoroutine
 
 class PermissionUtils(var activity:AppCompatActivity) {
 
@@ -21,6 +24,21 @@ class PermissionUtils(var activity:AppCompatActivity) {
     }
     fun setCallback(permissionCallback: PermissionCallback){
         emptyFragment.setCallback(permissionCallback)
+    }
+
+    suspend fun getResult():String{
+        return suspendCoroutine {
+         try {
+             emptyFragment.setCallback(object :PermissionCallback{
+                 override fun result(isSuccess: Boolean, message: String) {
+                     it.resume(message)
+                 }
+
+             })
+         }catch (e:Exception){
+             it.resumeWithException(e)
+         }
+        }
     }
 
 

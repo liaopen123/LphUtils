@@ -23,7 +23,7 @@ class EmptyFragment:Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         retainInstance = true
-        myRequetPermission()
+
     }
 
     open fun myRequetPermission() {
@@ -35,10 +35,10 @@ class EmptyFragment:Fragment() {
             ActivityCompat.requestPermissions(
                 activity!!,
                 arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                1
+                MY_PERMISSIONS_REQUEST_READ_CONTACTS
             )
         } else {
-            Toast.makeText(activity!!, "您已经申请了权限!", Toast.LENGTH_SHORT).show()
+            permissionCallback!!.result(true,"result:您已经申请了权限")
         }
     }
 
@@ -56,14 +56,14 @@ class EmptyFragment:Fragment() {
                   && grantResults[0] == PackageManager.PERMISSION_GRANTED
               ) {
                   Log.i("TAG", "onRequestPermissionsResult granted")
-                  permissionCallback?.result(true,"onRequestPermissionsResult granted")
+                  permissionCallback!!.result(true,"onRequestPermissionsResult granted")
                   // permission was granted, yay! Do the
                   // contacts-related task you need to do.
               } else {
                   Log.i("TAG", "onRequestPermissionsResult denied")
                   // permission denied, boo! Disable the
                   // functionality that depends on this permission.
-                  permissionCallback?.result(true,"onRequestPermissionsResult denied")
+                  permissionCallback!!.result(true,"onRequestPermissionsResult denied")
 //                  showWaringDialog()
 
               }
@@ -83,6 +83,11 @@ class EmptyFragment:Fragment() {
                 }).show()
     }
 
+    override fun onStart() {
+        super.onStart()
+        myRequetPermission()
+    }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -93,6 +98,7 @@ class EmptyFragment:Fragment() {
     }
 
     fun setCallback(permissionCallback: PermissionUtils.PermissionCallback) {
+
         this.permissionCallback = permissionCallback
     }
 }
