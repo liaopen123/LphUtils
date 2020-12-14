@@ -26,6 +26,9 @@ class PermissionUtils(var activity:AppCompatActivity) {
         emptyFragment.setCallback(permissionCallback)
     }
 
+    /**
+     * 回调的写法 就是用协程包裹回调  异步就能改成同步的了
+     */
     suspend fun getResult():String{
         return suspendCoroutine {
          try {

@@ -14,16 +14,20 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.LphUtils">
-        <activity android:name=".fragmentgetpermission.Permission1Activity">
+        <activity android:name=".getallpic.MediaAlbumActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".FilePickerDemoActivity">
 
         </activity>
+        <activity android:name=".fragmentgetpermission.Permission1Activity">
+
+        </activity>
+        <activity android:name=".MainActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
